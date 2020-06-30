@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Main" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:str="clr-namespace:System.Text.RegularExpressions;assembly=System" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:str="clr-namespace:System.Text.RegularExpressions;assembly=System" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property sap2010:Annotation.AnnotationText="The path file to read." Name="SourceFilename" Type="InArgument(x:String)">
       <sap:WorkflowViewStateService.ViewState>
@@ -14,12 +14,13 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </x:Property>
+    <x:Property Name="argument1" Type="InArgument(x:String)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
   <sap2010:Annotation.AnnotationText>UPTF000000C8eyI8SGVscExpbms+a19fQmFja2luZ0ZpZWxkIjpudWxsLCI8SW5pdGlhbFRvb2x0aXA+a19fQmFja2luZ0ZpZWxkIjoiVHJhbnNsYXRlcyBhbmQgY29udmVydHMgdGhlIHNwZWNpZmllZCBYYW1sIGZpbGUuIiwiPFZlcnNpb24+a19fQmFja2luZ0ZpZWxkIjoxfQ==</sap2010:Annotation.AnnotationText>
-  <sap:VirtualizedContainerService.HintSize>1124,1754</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1142,1765</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="24">
@@ -76,11 +77,12 @@
       <x:Boolean x:Key="ShouldExpandAll">True</x:Boolean>
     </scg:Dictionary>
   </sap:WorkflowViewStateService.ViewState>
-  <Sequence sap2010:Annotation.AnnotationText="Add a ID to DisplayName." DisplayName="Add a ID to DisplayName.(File)" sap:VirtualizedContainerService.HintSize="656,1589" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Add a ID to DisplayName." DisplayName="Add a ID to DisplayName.(File)" sap:VirtualizedContainerService.HintSize="1122,1705" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
-      <Variable x:TypeArguments="x:String" Name="XamlText" />
-      <Variable x:TypeArguments="x:Int32" Name="index" />
       <Variable x:TypeArguments="x:String" Name="TextConv" />
+      <Variable x:TypeArguments="x:String" Name="WriteXamlText" />
+      <Variable x:TypeArguments="s:String[]" Name="TextArray" />
+      <Variable x:TypeArguments="x:String" Name="ReadXamlText" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -88,8 +90,8 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:ReadTextFile Content="[XamlText]" DisplayName="Read Xaml File" FileName="[SourceFilename]" sap:VirtualizedContainerService.HintSize="614,59" sap2010:WorkflowViewState.IdRef="ReadTextFile_1" />
-    <Sequence sap:VirtualizedContainerService.HintSize="614,1240" sap2010:WorkflowViewState.IdRef="Sequence_3">
+    <ui:ReadTextFile Content="[ReadXamlText]" DisplayName="Read Xaml File" FileName="[SourceFilename]" sap:VirtualizedContainerService.HintSize="1080,59" sap2010:WorkflowViewState.IdRef="ReadTextFile_1" />
+    <Sequence sap:VirtualizedContainerService.HintSize="1080,1356" sap2010:WorkflowViewState.IdRef="Sequence_3">
       <Sequence.Variables>
         <Variable x:TypeArguments="scg:IEnumerable(str:Match)" Name="Conv" />
       </Sequence.Variables>
@@ -98,78 +100,105 @@
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-      <ui:Matches BuilderPattern="DisplayName=&quot;(.*?)&quot;" DisplayName="Matches DisplayName" sap:VirtualizedContainerService.HintSize="572,59" sap2010:WorkflowViewState.IdRef="Matches_4" Input="[XamlText]" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;ADV&quot;,&quot;OperationName&quot;:&quot;Advanced&quot;,&quot;OperationValue&quot;:&quot;DisplayName=\&quot;(.*?)\&quot;&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern="DisplayName=&quot;(.*?)&quot;" RegexOption="None" Result="[Conv]" />
-      <Assign DisplayName="Assign" sap:VirtualizedContainerService.HintSize="572,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="1038,60" sap2010:WorkflowViewState.IdRef="Assign_15">
         <Assign.To>
-          <OutArgument x:TypeArguments="x:Int32">[index]</OutArgument>
+          <OutArgument x:TypeArguments="s:String[]">[TextArray]</OutArgument>
         </Assign.To>
         <Assign.Value>
-          <InArgument x:TypeArguments="x:Int32">0</InArgument>
+          <InArgument x:TypeArguments="s:String[]">[ReadXamlText.Replace(vbCrLf,vbLf).Split({vbLf(0),vbCr(0)})]</InArgument>
         </Assign.Value>
       </Assign>
-      <While DisplayName="While" sap:VirtualizedContainerService.HintSize="572,949" sap2010:WorkflowViewState.IdRef="While_1">
-        <While.Condition>
-          <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="Conv.count &gt; index" sap2010:WorkflowViewState.IdRef="VisualBasicValue`1_1" />
-        </While.Condition>
-        <Sequence sap:VirtualizedContainerService.HintSize="526,791" sap2010:WorkflowViewState.IdRef="Sequence_4">
-          <Sequence.Variables>
-            <Variable x:TypeArguments="x:Boolean" Name="Ret" />
-          </Sequence.Variables>
-          <sap:WorkflowViewStateService.ViewState>
-            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-            </scg:Dictionary>
-          </sap:WorkflowViewStateService.ViewState>
-          <ui:IsMatch BuilderPattern="\[([a-z0-9]{8})\]$" DisplayName="Is Match" sap:VirtualizedContainerService.HintSize="484,59" sap2010:WorkflowViewState.IdRef="IsMatch_1" Input="[Conv(index).Groups(1).ToString]" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;LIT&quot;,&quot;OperationName&quot;:&quot;Literal&quot;,&quot;OperationValue&quot;:&quot;\\[([a-z0-9]{8})\\]$&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern="\[([a-z0-9]{8})\]$" RegexOption="None" Result="[Ret]" />
-          <If Condition="[Ret = False]" DisplayName="If  Unregistered" sap:VirtualizedContainerService.HintSize="484,500" sap2010:WorkflowViewState.IdRef="If_1">
-            <If.Then>
-              <Sequence DisplayName="all extracted strings are Converted." sap:VirtualizedContainerService.HintSize="304,352" sap2010:WorkflowViewState.IdRef="Sequence_2">
-                <Sequence.Variables>
-                  <Variable x:TypeArguments="x:String" Name="st" />
-                </Sequence.Variables>
-                <sap:WorkflowViewStateService.ViewState>
-                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                  </scg:Dictionary>
-                </sap:WorkflowViewStateService.ViewState>
-                <Assign DisplayName="Assign" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_3">
-                  <Assign.To>
-                    <OutArgument x:TypeArguments="x:String">[TextConv]</OutArgument>
-                  </Assign.To>
-                  <Assign.Value>
-                    <InArgument x:TypeArguments="x:String" xml:space="preserve">[Conv(index).Groups(1).ToString+"  ["+Guid.NewGuid.ToString("N").Substring(0, 8)+"]"]</InArgument>
-                  </Assign.Value>
-                </Assign>
-                <Assign DisplayName="Assign" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_13">
-                  <Assign.To>
-                    <OutArgument x:TypeArguments="x:String">[st]</OutArgument>
-                  </Assign.To>
-                  <Assign.Value>
-                    <InArgument x:TypeArguments="x:String">[Conv(index).Groups(0).ToString.Replace(Conv(index).Groups(1).ToString,TextConv)]</InArgument>
-                  </Assign.Value>
-                </Assign>
-                <Assign DisplayName="Assign" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_14">
-                  <Assign.To>
-                    <OutArgument x:TypeArguments="x:String">[XamlText]</OutArgument>
-                  </Assign.To>
-                  <Assign.Value>
-                    <InArgument x:TypeArguments="x:String">[XamlText.Replace(Conv(index).Groups(0).ToString,st)]</InArgument>
-                  </Assign.Value>
-                </Assign>
-              </Sequence>
-            </If.Then>
-          </If>
-          <Assign sap:VirtualizedContainerService.HintSize="484,60" sap2010:WorkflowViewState.IdRef="Assign_9">
-            <Assign.To>
-              <OutArgument x:TypeArguments="x:Int32">[index]</OutArgument>
-            </Assign.To>
-            <Assign.Value>
-              <InArgument x:TypeArguments="x:Int32">[index +1]</InArgument>
-            </Assign.Value>
-          </Assign>
-        </Sequence>
-      </While>
+      <ui:ForEach x:TypeArguments="x:Object" CurrentIndex="{x:Null}" DisplayName="繰り返し (コレクションの各要素)　１行単位で変換" sap:VirtualizedContainerService.HintSize="1038,1164" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[TextArray]">
+        <ui:ForEach.Body>
+          <ActivityAction x:TypeArguments="x:Object">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="x:Object" Name="item" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="本体" sap:VirtualizedContainerService.HintSize="1002,1030" sap2010:WorkflowViewState.IdRef="Sequence_7">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:Matches BuilderPattern="DisplayName=&quot;(.*?)&quot;" DisplayName="Matches DisplayName" sap:VirtualizedContainerService.HintSize="960,59" sap2010:WorkflowViewState.IdRef="Matches_5" Input="[item.ToString]" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;ADV&quot;,&quot;OperationName&quot;:&quot;Advanced&quot;,&quot;OperationValue&quot;:&quot;DisplayName=\&quot;(.*?)\&quot;&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern="DisplayName=&quot;(.*?)&quot;" RegexOption="None" Result="[Conv]" />
+              <If Condition="[Conv.count &lt;&gt; 0]" DisplayName="条件分岐　Maches DisplayName" sap:VirtualizedContainerService.HintSize="960,839" sap2010:WorkflowViewState.IdRef="If_3">
+                <If.Then>
+                  <Sequence DisplayName="シーケンス" sap:VirtualizedContainerService.HintSize="653,691" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                    <Sequence.Variables>
+                      <Variable x:TypeArguments="x:Boolean" Name="Exist" />
+                    </Sequence.Variables>
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:IsMatch BuilderPattern="\[([a-z0-9]{8})\]$" DisplayName="Is Match [XXXXXXXX]" sap:VirtualizedContainerService.HintSize="611,59" sap2010:WorkflowViewState.IdRef="IsMatch_2" Input="[Conv(0).Groups(1).ToString]" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;LIT&quot;,&quot;OperationName&quot;:&quot;Literal&quot;,&quot;OperationValue&quot;:&quot;\\[([a-z0-9]{8})\\]$&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern="\[([a-z0-9]{8})\]$" RegexOption="None" Result="[Exist]" />
+                    <If Condition="[Exist = False]" DisplayName="If  Unregistered" sap:VirtualizedContainerService.HintSize="611,500" sap2010:WorkflowViewState.IdRef="If_2">
+                      <If.Then>
+                        <Sequence DisplayName="all extracted strings are Converted." sap:VirtualizedContainerService.HintSize="304,352" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                          <Sequence.Variables>
+                            <Variable x:TypeArguments="x:String" Name="st" />
+                          </Sequence.Variables>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <Assign DisplayName="Assign" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_16">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:String">[TextConv]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:String" xml:space="preserve">[Conv(0).Groups(1).ToString+"  ["+Guid.NewGuid.ToString("N").Substring(0, 8)+"]"]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                          <Assign DisplayName="Assign" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_17">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:String">[st]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:String">[Conv(0).Groups(0).ToString.Replace(Conv(0).Groups(1).ToString,TextConv)]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                          <Assign DisplayName="Assign" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_18">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:String">[WriteXamlText]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:String">[WriteXamlText+item.ToString.Replace(Conv(0).Groups(0).ToString,st)+Environment.NewLine]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                        </Sequence>
+                      </If.Then>
+                      <If.Else>
+                        <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_19">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[WriteXamlText]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">[WriteXamlText+item.ToString+Environment.NewLine]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </If.Else>
+                    </If>
+                  </Sequence>
+                </If.Then>
+                <If.Else>
+                  <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_20">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[WriteXamlText]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[WriteXamlText+item.ToString+Environment.NewLine]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </If.Else>
+              </If>
+            </Sequence>
+          </ActivityAction>
+        </ui:ForEach.Body>
+      </ui:ForEach>
     </Sequence>
-    <ui:WriteTextFile DisplayName="Output file" FileName="[OutputFilename]" sap:VirtualizedContainerService.HintSize="614,87" sap2010:WorkflowViewState.IdRef="WriteTextFile_1" Text="[XamlText]" />
+    <ui:WriteTextFile DisplayName="Output file" FileName="[OutputFilename]" sap:VirtualizedContainerService.HintSize="1080,87" sap2010:WorkflowViewState.IdRef="WriteTextFile_1" Text="[WriteXamlText]" />
   </Sequence>
 </Activity>
